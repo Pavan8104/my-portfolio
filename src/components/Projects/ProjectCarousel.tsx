@@ -10,6 +10,13 @@ interface CarouselProps {
 export default function ProjectCarousel({ onProjectSelect }: CarouselProps) {
   const carouselRef = useRef<HTMLDivElement>(null);
   const [activeIndex, setActiveIndex] = useState(0);
+  const [showToast, setShowToast] = useState(true);
+
+  // Hide toast after 5 seconds
+  useEffect(() => {
+    const timer = setTimeout(() => setShowToast(false), 5000);
+    return () => clearTimeout(timer);
+  }, []);
 
   // Auto-rotate
   useEffect(() => {
@@ -92,7 +99,18 @@ export default function ProjectCarousel({ onProjectSelect }: CarouselProps) {
 
       {/* Edge gradients */}
       <div className="absolute left-0 top-0 bottom-0 w-12 bg-gradient-to-r from-cyber-black to-transparent pointer-events-none z-[5]" />
-      <div className="absolute right-0 top-0 bottom-0 w-12 bg-gradient-to-l from-cyber-black to-transparent pointer-events-none z-[5]" />
+
+      {/* Mobile helper text */}
+      <div className="flex lg:hidden flex-col items-center mt-4 pb-4 relative z-20">
+        {showToast && (
+          <div
+            className="mb-2 bg-cyber-green/10 border border-cyber-green/30 text-cyber-green font-code text-xs px-4 py-2 rounded-lg whitespace-nowrap"
+            style={{ boxShadow: '0 0 15px rgba(0,255,65,0.2)' }}
+          >
+            Swipe to browse projects
+          </div>
+        )}
+      </div>
     </div>
   );
 }

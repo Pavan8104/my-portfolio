@@ -82,3 +82,15 @@ export function toggleAudio() {
     stopAmbientMusic();
   }
 }
+
+// Automatically mute audio when user switches tabs or minimizes the window
+if (typeof document !== 'undefined') {
+  document.addEventListener('visibilitychange', () => {
+    const { audioEnabled } = useAppStore.getState();
+    if (document.hidden) {
+      Howler.mute(true);
+    } else {
+      Howler.mute(!audioEnabled);
+    }
+  });
+}

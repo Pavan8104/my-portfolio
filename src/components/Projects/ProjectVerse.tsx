@@ -5,6 +5,7 @@ import * as THREE from 'three';
 import { motion, AnimatePresence } from 'framer-motion';
 import { projects } from '../../data/projects';
 import { playSound } from '../../hooks/useAudio';
+import VirtualJoystick from './VirtualJoystick';
 
 const SPACING = 12;
 const TOTAL_DEPTH = (projects.length - 1) * SPACING;
@@ -274,6 +275,7 @@ export default function ProjectVerse({
   const [verseInView, setVerseInView] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
   const canvasRef = useRef<HTMLDivElement>(null);
+  const joystickVectorRef = useRef<{ x: number; y: number }>({ x: 0, y: 0 });
 
   const activeIndex = Math.min(
     Math.round(Math.min(progress, 1) * (projects.length - 1)),
@@ -349,6 +351,41 @@ export default function ProjectVerse({
     window.addEventListener('wheel', handleWheel, { passive: false });
     return () => window.removeEventListener('wheel', handleWheel);
   }, [launched, verseInView, completed, onComplete]);
+
+  // Handle joystick-driven movement (primarily for mobile/touch)
+  useEffect(() => {
+    if (!launched) return;
+
+    let frameId: number;
+
+    const loop = () => {
+      const vec = joystickVectorRef.current;
+      // Up on joystick (negative y) moves forward through the verse
+      const joystickSpeed = -vec.y * 0.004;
+
+      if (Math.abs(joystickSpeed) > 0.0001) {
+        setProgress((prev) => {
+          const next = prev + joystickSpeed;
+          const clamped = Math.max(0, Math.min(1.05, next));
+
+          if (clamped >= 1.0 && !completed) {
+            setCompleted(true);
+            onComplete?.();
+          }
+
+          return clamped;
+        });
+      }
+
+      frameId = requestAnimationFrame(loop);
+    };
+
+    frameId = requestAnimationFrame(loop);
+
+    return () => {
+      cancelAnimationFrame(frameId);
+    };
+  }, [launched, completed, onComplete]);
 
   const launch = () => {
     playSound('whoosh');
@@ -520,6 +557,21 @@ export default function ProjectVerse({
                 </div>
               </motion.div>
             )}
+
+            {/* Mobile virtual joystick for navigation */}
+            <div className="absolute bottom-4 left-1/2 -translate-x-1/2 pointer-events-auto md:hidden px-4">
+              <VirtualJoystick
+                onMove={(vec) => {
+                  joystickVectorRef.current = vec;
+                }}
+                onEnd={() => {
+                  joystickVectorRef.current = { x: 0, y: 0 };
+                }}
+              />
+              <div className="mt-2 font-code text-[10px] text-cyber-blue-dim/80 text-center">
+                Drag joystick to fly
+              </div>
+            </div>
           </div>
         </motion.div>
       )}
