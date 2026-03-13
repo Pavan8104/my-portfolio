@@ -30,7 +30,7 @@ export default function VirtualJoystick({
 
   const getVectorFromEvent = (clientX: number, clientY: number) => {
     const base = baseRef.current;
-    if (!base) return { x: 0, y: 0 };
+    if (!base) return { thumb: { x: 0, y: 0 }, vector: { x: 0, y: 0 } };
 
     const rect = base.getBoundingClientRect();
     const centerX = rect.left + rect.width / 2;

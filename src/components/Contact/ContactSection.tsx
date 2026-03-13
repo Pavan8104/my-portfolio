@@ -167,7 +167,7 @@ export default function ContactSection() {
 
             {/* Resume button */}
             <motion.a
-              href="https://1drv.ms/b/c/2d4592b27b627992/IQDaqIuuSEGfQJkHIhZipAt-AZyxHedjflBOA8xhn3S8APA?e=oSv3ZC"
+              href="https://1drv.ms/f/c/2d4592b27b627992/IgCoByK9Pfe2S5fqYDMxBS0UAWdHOcuZRnkahHj41-ZKp9A?e=Dul9sc"
               target="_blank"
               rel="noopener noreferrer"
               className="cyber-button w-full text-center py-3 flex items-center justify-center gap-2"

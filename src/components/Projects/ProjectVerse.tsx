@@ -5,7 +5,6 @@ import * as THREE from 'three';
 import { motion, AnimatePresence } from 'framer-motion';
 import { projects } from '../../data/projects';
 import { playSound } from '../../hooks/useAudio';
-import VirtualJoystick from './VirtualJoystick';
 
 const SPACING = 12;
 const TOTAL_DEPTH = (projects.length - 1) * SPACING;
@@ -275,7 +274,6 @@ export default function ProjectVerse({
   const [verseInView, setVerseInView] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
   const canvasRef = useRef<HTMLDivElement>(null);
-  const joystickVectorRef = useRef<{ x: number; y: number }>({ x: 0, y: 0 });
 
   const activeIndex = Math.min(
     Math.round(Math.min(progress, 1) * (projects.length - 1)),
@@ -352,44 +350,20 @@ export default function ProjectVerse({
     return () => window.removeEventListener('wheel', handleWheel);
   }, [launched, verseInView, completed, onComplete]);
 
-  // Handle joystick-driven movement (primarily for mobile/touch)
-  useEffect(() => {
-    if (!launched) return;
-
-    let frameId: number;
-
-    const loop = () => {
-      const vec = joystickVectorRef.current;
-      // Up on joystick (negative y) moves forward through the verse
-      const joystickSpeed = -vec.y * 0.004;
-
-      if (Math.abs(joystickSpeed) > 0.0001) {
-        setProgress((prev) => {
-          const next = prev + joystickSpeed;
-          const clamped = Math.max(0, Math.min(1.05, next));
-
-          if (clamped >= 1.0 && !completed) {
-            setCompleted(true);
-            onComplete?.();
-          }
-
-          return clamped;
-        });
-      }
-
-      frameId = requestAnimationFrame(loop);
-    };
-
-    frameId = requestAnimationFrame(loop);
-
-    return () => {
-      cancelAnimationFrame(frameId);
-    };
-  }, [launched, completed, onComplete]);
-
   const launch = () => {
     playSound('whoosh');
     setLaunched(true);
+  };
+
+  const navigateToProject = (index: number) => {
+    const clamped = Math.max(0, Math.min(projects.length - 1, index));
+    const targetProgress = projects.length > 1 ? clamped / (projects.length - 1) : 0;
+    playSound('click');
+    setProgress(targetProgress);
+    if (targetProgress >= 1.0 && !completed) {
+      setCompleted(true);
+      onComplete?.();
+    }
   };
 
   return (
@@ -526,8 +500,8 @@ export default function ProjectVerse({
               </div>
             </div>
 
-            {/* Current project label */}
-            <div className="absolute bottom-8 left-1/2 -translate-x-1/2">
+            {/* Current project label — lifted on mobile so it clears the nav buttons */}
+            <div className="absolute bottom-20 md:bottom-8 left-1/2 -translate-x-1/2">
               <div className="font-code text-xs text-cyber-blue-dim text-center">
                 <span className="text-neon-pink font-cyber">
                   {projects[Math.min(activeIndex, projects.length - 1)]?.title}
@@ -538,10 +512,10 @@ export default function ProjectVerse({
               </div>
             </div>
 
-            {/* Scroll hint */}
+            {/* Scroll hint — desktop only */}
             {progress < 0.05 && (
               <motion.div
-                className="absolute bottom-20 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2"
+                className="absolute bottom-20 left-1/2 -translate-x-1/2 hidden md:flex flex-col items-center gap-2"
                 animate={{ opacity: [1, 0.3, 1], y: [0, 5, 0] }}
                 transition={{ duration: 2, repeat: Infinity }}
               >
@@ -558,23 +532,87 @@ export default function ProjectVerse({
               </motion.div>
             )}
 
-            {/* Mobile virtual joystick for navigation */}
-            <div className="absolute bottom-4 left-1/2 -translate-x-1/2 pointer-events-auto md:hidden px-4">
-              <VirtualJoystick
-                onMove={(vec) => {
-                  joystickVectorRef.current = vec;
-                }}
-                onEnd={() => {
-                  joystickVectorRef.current = { x: 0, y: 0 };
-                }}
-              />
-              <div className="mt-2 font-code text-[10px] text-cyber-blue-dim/80 text-center">
-                Drag joystick to fly
-              </div>
-            </div>
+            {/* Tap hint — mobile only, fades once user navigates */}
+            {progress < 0.05 && (
+              <motion.div
+                className="absolute bottom-20 left-1/2 -translate-x-1/2 flex md:hidden flex-col items-center gap-1"
+                animate={{ opacity: [1, 0.3, 1] }}
+                transition={{ duration: 2, repeat: Infinity }}
+              >
+                <span className="font-code text-[10px] text-cyber-blue-dim tracking-widest uppercase">
+                  Tap ◀ ▶ to navigate
+                </span>
+              </motion.div>
+            )}
           </div>
+
         </motion.div>
       )}
+
+      {/* Mobile PREV / NEXT — fixed to the viewport so scroll-snap / page movement
+          never drags them off screen. Gated on verseInView so they vanish the
+          moment the user scrolls past the project space into any other section. */}
+      <AnimatePresence>
+        {launched && verseInView && (
+          <motion.div
+            className="fixed bottom-4 left-0 right-0 flex items-center justify-between px-5 z-[200] md:hidden pointer-events-none"
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: 16 }}
+            transition={{ duration: 0.22, ease: 'easeOut' }}
+          >
+            <motion.button
+              className="pointer-events-auto flex items-center gap-1.5 px-4 py-2.5 rounded font-code text-xs uppercase tracking-wider border transition-colors duration-200 select-none"
+              style={{
+                background: activeIndex === 0
+                  ? 'rgba(0,255,255,0.04)'
+                  : 'rgba(0,255,255,0.1)',
+                borderColor: activeIndex === 0
+                  ? 'rgba(0,255,255,0.15)'
+                  : 'rgba(0,255,255,0.5)',
+                color: activeIndex === 0
+                  ? 'rgba(0,255,255,0.25)'
+                  : '#00FFFF',
+                boxShadow: activeIndex === 0
+                  ? 'none'
+                  : '0 0 12px rgba(0,255,255,0.25)',
+              }}
+              onClick={() => navigateToProject(activeIndex - 1)}
+              disabled={activeIndex === 0}
+              whileTap={activeIndex > 0 ? { scale: 0.93 } : {}}
+            >
+              ◀ Prev
+            </motion.button>
+
+            <div className="font-code text-[10px] text-cyber-blue-dim/50 tabular-nums">
+              {String(activeIndex + 1).padStart(2, '0')} / {String(projects.length).padStart(2, '0')}
+            </div>
+
+            <motion.button
+              className="pointer-events-auto flex items-center gap-1.5 px-4 py-2.5 rounded font-code text-xs uppercase tracking-wider border transition-colors duration-200 select-none"
+              style={{
+                background: activeIndex === projects.length - 1
+                  ? 'rgba(255,0,153,0.04)'
+                  : 'rgba(255,0,153,0.12)',
+                borderColor: activeIndex === projects.length - 1
+                  ? 'rgba(255,0,153,0.15)'
+                  : 'rgba(255,0,153,0.55)',
+                color: activeIndex === projects.length - 1
+                  ? 'rgba(255,0,153,0.25)'
+                  : '#FF0099',
+                boxShadow: activeIndex === projects.length - 1
+                  ? 'none'
+                  : '0 0 12px rgba(255,0,153,0.25)',
+              }}
+              onClick={() => navigateToProject(activeIndex + 1)}
+              disabled={activeIndex === projects.length - 1}
+              whileTap={activeIndex < projects.length - 1 ? { scale: 0.93 } : {}}
+            >
+              Next ▶
+            </motion.button>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </section>
   );
 }
