@@ -15,13 +15,14 @@ const hackingSequence = [
   '> Breaching firewall...',
   '> Accessing personal data...',
   '> Loading portfolio info...',
-  '> Welcome to Mayank\'s Digital Identity',
+  '> Welcome to Pavan\'s Digital Identity',
 ];
 
 const contactLinks = [
-  { name: 'Email', icon: '📧', href: 'mailto:mayank275sharma@gmail.com' },
-  { name: 'GitHub', icon: '🔗', href: 'https://github.com/Ms-10182' },
-  { name: 'LinkedIn', icon: '💼', href: 'https://www.linkedin.com/in/mayank-sharma-078278243/' },
+  { name: 'Email', icon: '📧', href: 'mailto:ps3297169@gmail.com' },
+  { name: 'GitHub', icon: '🔗', href: 'https://github.com/Pavan8104' },
+  { name: 'LinkedIn', icon: '💼', href: 'https://www.linkedin.com/in/pavan-sharma-1645ab276/' },
+  { name: 'Projects', icon: '🚀', href: '#projects' },
 ];
 
 export default function AboutSection({ isVisible, onEscape }: AboutSectionProps) {
@@ -124,17 +125,17 @@ export default function AboutSection({ isVisible, onEscape }: AboutSectionProps)
                   <div>
                     <h3 className="cyber-heading text-lg neon-text-purple mb-4">Profile</h3>
                     <p className="font-code text-cyber-blue-dim text-sm leading-relaxed mb-6">
-                      Backend and Blockchain developer with a passion for creating immersive digital experiences.
-                      Specializing in Golang, Docker, Kubernetes, and blockchain technologies.
-                      I bring ideas to life through code and pure creativity.
+                      I am a Computer Science undergraduate at Chandigarh University with a strong foundation in data structures, backend development, and intelligent systems.
+                      <br /><br />
+                      My interests lie at the intersection of AI, Data Science, and software development. I enjoy solving complex problems using DSA and building scalable applications that deliver real-world impact.
                     </p>
 
                     <div className="space-y-2 text-sm">
                       {[
-                        { label: 'Alias', value: 'Msattack' },
-                        { label: 'Role', value: 'Backend and Blockchain Developer' },
+                        { label: 'Alias', value: 'Pavan Sharma' },
+                        { label: 'Role', value: 'Full Stack & AI Enthusiast' },
                         { label: 'Status', value: 'Available for Collaboration' },
-                        { label: 'Clearance', value: 'Backend and Blockchain' },
+                        { label: 'Clearance', value: 'AI & Data Science' },
                       ].map((item) => (
                         <div key={item.label} className="flex items-center gap-2">
                           <span className="text-neon-pink">▶</span>
@@ -220,48 +221,61 @@ export default function AboutSection({ isVisible, onEscape }: AboutSectionProps)
 
                 {/* Contact Links */}
                 <div className="mt-8 pt-6 border-t border-cyan-900/30">
-                  <h3 className="cyber-heading text-lg neon-text-purple mb-4 text-center">
+                  <h3 className="cyber-heading text-lg neon-text-purple mb-6 text-center">
                     Connect
                   </h3>
-                  <div className="flex justify-center gap-4 flex-wrap">
+                  <div className="flex flex-col sm:flex-row flex-wrap gap-3 justify-center items-center mb-8">
                     {contactLinks.map((link, i) => (
                       <motion.a
                         key={link.name}
                         href={link.href}
-                        target="_blank"
+                        target={link.name === 'Projects' ? undefined : "_blank"}
                         rel="noopener noreferrer"
-                        className="neon-badge"
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ delay: 0.3 + i * 0.15 }}
-                        whileHover={{ scale: 1.08 }}
+                        className="cyber-button py-3 px-6 w-full sm:w-auto flex items-center justify-center gap-2"
+                        initial={{ opacity: 0, scale: 0.9 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        transition={{ delay: 0.3 + i * 0.1 }}
+                        whileHover={{ scale: 1.05 }}
+                        whileTap={{ scale: 0.95 }}
                         onMouseEnter={() => playSound('hover')}
+                        onClick={(e) => {
+                          if (link.name === 'Projects') {
+                            e.preventDefault();
+                            playSound('click');
+                            onEscape();
+                            setTimeout(() => {
+                              document.getElementById("projects")?.scrollIntoView({ behavior: "smooth" });
+                            }, 100);
+                          }
+                        }}
                       >
-                        <span className="mr-2">{link.icon}</span>
-                        {link.name}
+                        <span className="text-xl">{link.icon}</span>
+                        <span className="font-code text-xs uppercase tracking-wider">{link.name}</span>
                       </motion.a>
                     ))}
+                  </div>
+                  
+                  {/* Escape button moved into normal flow below links to prevent overlapping! */}
+                  <div className="flex justify-center mt-8">
+                    <motion.button
+                      onClick={() => {
+                        playSound('click');
+                        onEscape();
+                      }}
+                      className="cyber-button-red text-sm px-8 py-3 tracking-widest"
+                      initial={{ opacity: 0, scale: 0.8 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      transition={{ delay: 1 }}
+                      whileHover={{ scale: 1.05 }}
+                      whileTap={{ scale: 0.95 }}
+                    >
+                      🚨 Escape Safely
+                    </motion.button>
                   </div>
                 </div>
               </motion.div>
             )}
           </div>
-
-          {/* Escape button */}
-          <motion.button
-            onClick={() => {
-              playSound('click');
-              onEscape();
-            }}
-            className="fixed bottom-6 right-6 z-[55] cyber-button-red text-sm px-6 py-3"
-            initial={{ opacity: 0, scale: 0.8 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ delay: 1 }}
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-          >
-            🚨 Escape Safely
-          </motion.button>
         </motion.div>
       )}
     </AnimatePresence>

@@ -7,37 +7,20 @@ export interface Tool {
 }
 
 export const tools: Tool[] = [
-  // Frontend
-  { name: 'React', category: 'Frontend', description: 'Component-based UI library for building interactive interfaces', icon: '⚛️', color: '#61DAFB' },
-  { name: 'JavaScript', category: 'Frontend', description: 'High-performance, dynamic programming language', icon: '▲', color: '#FFD43B' },
-  { name: 'TypeScript', category: 'Frontend', description: 'Typed superset of JavaScript for safer, scalable code', icon: '🔷', color: '#3178C6' },
-  { name: 'Ether.js', category: 'Frontend', description: 'Complete library for interacting with the Ethereum blockchain', icon: '🎮', color: '#00FFFF' },
-  { name: 'Tailwind CSS', category: 'Frontend', description: 'Utility-first CSS framework for rapid UI development', icon: '🎨', color: '#06B6D4' },
+  // Core Skills
+  { name: 'Data Structures & Algorithms', category: 'Core Skills', description: 'Advanced problem-solving and optimization', icon: '🧠', color: '#8A2BE2' },
+  { name: 'AI & Machine Learning', category: 'Core Skills', description: 'Building intelligent systems using large language models', icon: '🤖', color: '#06B6D4' },
+  { name: 'Data Science', category: 'Core Skills', description: 'Analyzing data to derive actionable insights', icon: '📊', color: '#F46800' },
+  { name: 'Full Stack Development', category: 'Core Skills', description: 'Building end-to-end web and backend applications', icon: '🌐', color: '#339933' },
 
-  // Backend
-  { name: 'Node.js', category: 'Backend', description: 'JavaScript runtime for server-side applications', icon: '🟢', color: '#339933' },
-  { name: 'Express', category: 'Backend', description: 'Minimal web framework for building REST APIs', icon: '🚀', color: '#FFFFFF' },
-  { name: 'Go', category: 'Backend', description: 'Versatile language for backend and scripting', icon: '🔷', color: '#FFD43B' },
-  { name: 'REST API', category: 'Backend', description: 'Modern high-performance Python web framework', icon: '⚡', color: '#009688' },
-  { name: 'PostgreSQL', category: 'Backend', description: 'Advanced open-source relational database', icon: '🐘', color: '#4169E1' },
-  { name: 'MongoDB', category: 'Backend', description: 'NoSQL document database for flexible data models', icon: '🍃', color: '#47A248' },
-  { name: 'Grafana', category: 'Backend', description: 'Open-source observability platform for visualizing metrics and logs', icon: '📊', color: '#F46800' },
-  { name: 'Coralogix', category: 'Backend', description: 'Advanced log management platform for centralized logging', icon: '📊', color: '#F46800' },
-  { name :'Redis', category: 'Backend', description: 'In-memory data structure store', icon: '📊', color: '#F46800' },
-  { name :'Git', category: 'Backend', description: 'Version control system for tracking changes', icon: '📊', color: '#F46800' },
-
-
-  // Blockchain
-  { name: 'Solidity', category: 'Blockchain', description: 'Smart contract language for Ethereum Virtual Machine', icon: '💎', color: '#8A2BE2' },
-  { name: 'Hardhat', category: 'Blockchain', description: 'Ethereum development environment for testing and deployment', icon: '🔨', color: '#FFF100' },
-  { name: 'Ethers.js', category: 'Blockchain', description: 'Complete library for interacting with the Ethereum blockchain', icon: '🔗', color: '#00FFFF' },
-  { name: 'IPFS', category: 'Blockchain', description: 'Decentralized storage protocol for distributed file systems', icon: '📦', color: '#65C2CB' },
- 
-  // DevOps
-  { name: 'Docker', category: 'DevOps', description: 'Container platform for consistent development environments', icon: '🐳', color: '#2496ED' },
-  { name: 'Kubernetes', category: 'DevOps', description: 'Container orchestration for automated deployment and scaling', icon: '☸️', color: '#326CE5' },
-  { name: 'Azure', category: 'DevOps', description: 'Cloud computing platform for scalable infrastructure', icon: '☁️', color: '#FF9900' },
-  { name: 'GitHub Actions', category: 'DevOps', description: 'CI/CD automation directly integrated with GitHub', icon: '🔄', color: '#2088FF' },
+  // Tech Stack
+  { name: 'Python', category: 'Tech Stack', description: 'High-level programming language for AI and backend', icon: '🐍', color: '#FFD43B' },
+  { name: 'C++', category: 'Tech Stack', description: 'High-performance systems and competitive programming', icon: '🚀', color: '#00599C' },
+  { name: 'Java', category: 'Tech Stack', description: 'Object-oriented programming language', icon: '☕', color: '#F89820' },
+  { name: 'JavaScript', category: 'Tech Stack', description: 'Dynamic programming language for web', icon: '▲', color: '#F7DF1E' },
+  { name: 'HTML & CSS', category: 'Tech Stack', description: 'Markup and styling for web interfaces', icon: '🎨', color: '#E34F26' },
+  { name: 'DBMS', category: 'Tech Stack', description: 'Database management systems', icon: '🗄️', color: '#4169E1' },
+  { name: 'Git & GitHub', category: 'Tech Stack', description: 'Version control and collaboration', icon: '🐙', color: '#F05032' },
 ];
 
-export const toolCategories = ['All', 'Frontend', 'Backend', 'Blockchain', 'DevOps'];
+export const toolCategories = ['All', 'Core Skills', 'Tech Stack'];

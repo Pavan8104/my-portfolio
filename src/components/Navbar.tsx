@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { playSound, toggleAudio } from '../hooks/useAudio';
 import { useAppStore } from '../stores/appStore';
+import { LOGO } from '../constants/brand';
 
 const navItems = [
   { label: 'Home', href: '#hero' },
@@ -98,7 +99,7 @@ export default function Navbar() {
             onClick={() => handleNavClick('#hero')}
           >
             <span className="text-neon-pink">{'<'}</span>
-            MS
+            {LOGO}
             <span className="text-neon-pink">{'/>'}</span>
           </motion.div>
 

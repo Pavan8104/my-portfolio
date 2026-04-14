@@ -6,15 +6,14 @@ export interface Skill {
 }
 
 export const skills: Skill[] = [
-  { name: 'golang', level: 95, category: 'Backend', icon: '🔵' },
-  { name: 'TypeScript', level: 92, category: 'Backend', icon: '🔷' },
-  { name: 'Git', level: 82, category: 'Version control', icon: '🎮' },
-  { name: 'Node.js & Express', level: 88, category: 'Backend', icon: '🟢' },
-  { name: 'Solidity', level: 78, category: 'Blockchain', icon: '⛓️' },
-  { name: 'Hardhat & Foundry', level: 75, category: 'Blockchain', icon: '🔨' },
-  { name: 'Docker', level: 70, category: 'DevOps', icon: '🐳' },
-  { name: 'Azure deployment', level: 72, category: 'DevOps', icon: '☁️' },
-  { name: 'PostgreSQL & MongoDB', level: 85, category: 'Backend', icon: '🗄️' },
+  { name: 'DSA', level: 90, category: 'Core Skills', icon: '🧠' },
+  { name: 'AI & ML', level: 85, category: 'Core Skills', icon: '🤖' },
+  { name: 'Data Science', level: 85, category: 'Core Skills', icon: '📊' },
+  { name: 'Backend', level: 80, category: 'Core Skills', icon: '⚙️' },
+  { name: 'Python', level: 90, category: 'Tech Stack', icon: '🐍' },
+  { name: 'C++', level: 85, category: 'Tech Stack', icon: '🚀' },
+  { name: 'Java', level: 80, category: 'Tech Stack', icon: '☕' },
+  { name: 'Git', level: 85, category: 'Tech Stack', icon: '🐙' },
 ];
 
-export const categories = ['All', 'Frontend', 'Backend', 'Blockchain', 'DevOps'];
+export const categories = ['All', 'Core Skills', 'Tech Stack'];

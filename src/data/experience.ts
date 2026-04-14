@@ -6,52 +6,47 @@ export interface Experience {
   description: string;
   tech: string[];
   type: 'work' | 'education' | 'freelance' ;
+  linkedin?: string;
 }
 
 export const experiences: Experience[] = [
   {
     id: 'exp-1',
-    role: 'Engineering Intern',
-    company: 'Razorpay',
-    period: '2025 — Present',
-    description: 'Worked on micro services for payment processing and fixed critical production bugs',
-    tech: ['Golang', 'Docker', 'Kubernetes', 'Git','Grafana','Coralogix','QueryBook','postgresql'],
+    role: 'Solution Architect Intern',
+    company: 'Hireonix AI',
+    period: 'Present',
+    description: 'Worked on analyzing platform data and deriving insights. Collaborated in team-based problem solving with a focus on structured thinking and real-world applications.',
+    tech: ['Python', 'Data Science', 'Problem Solving'],
     type: 'work',
+    linkedin: 'https://www.linkedin.com/posts/pavan-sharma-1645ab276_internship-solutionarchitect-hireonixai-share-7438654724213731328-5Sk-',
   },
   {
     id: 'exp-2',
-    role: 'Full Stack Blockchain Developer Intern ',
-    company: 'David Protocol',
-    period: '2024 — Present',
-    description: 'Built smart contract for decentralized blockchain based insurance platform',
-    tech: ['React', 'Node.js', 'Typescript', 'Algorand'],
+    role: 'Software Engineer Intern',
+    company: 'Hireonix AI',
+    period: '2024',
+    description: 'Contributed to software engineering projects and backend architectural development during an accelerated core internship phase.',
+    tech: ['Software Engineering', 'Backend'],
     type: 'work',
+    linkedin: 'https://www.linkedin.com/posts/pavan-sharma-1645ab276_softwareengineerintern-hieronixai-internshipjourney-share-7401664470483410945-ychW',
   },
   {
     id: 'exp-3',
-    role: 'Full Stack Engineer',
-    company: 'Self Project',
-    period: '2025',
-    description: 'Developed a end to end product of anonymous social media platform with proper error handling, user authentication, AI content moderation, and media size management',
-    tech: ['React', 'Javascript','Express.js','Redis','MongoDB','Azure','Docker'],
-    type: 'education',
+    role: 'Frontend Engineer Intern',
+    company: 'Wictronix',
+    period: '2023',
+    description: 'Helped develop responsive Web UI components and optimized frontend architectures for seamless enterprise user experiences.',
+    tech: ['Frontend', 'React', 'Web'],
+    type: 'work',
+    linkedin: 'https://www.linkedin.com/posts/pavan-sharma-1645ab276_internshipcompletion-wictronixindia-frontenddeveloper-share-7353476167183572992-VppL',
   },
   {
     id: 'exp-4',
-    role: 'Peer mentor',
+    role: 'Computer Science Undergraduate',
     company: 'Chandigarh University',
-    period: '2024',
-    description: 'Mentored 500+ students during metacrafter bootcamp in blockchain and advanced web3 systems.',
-    tech: ['React', 'Node.js', 'Typescript', 'Ethereum', 'Solidity', 'Hardhat', 'Algorand','Avalanche','Polygon','Javascript'],
+    period: 'Current',
+    description: 'Pursuing B.Tech with a strong foundation in data structures, backend development, and intelligent systems.',
+    tech: ['C++', 'Java', 'Python', 'DBMS', 'OOP'],
     type: 'education',
-  },
-  {
-    id: 'exp-5',
-    role: 'B.Tech Computer Science',
-    company: 'Chandigarh University',
-    period: '2022 — 2026',
-    description: 'Graduated with CSE honors. Focus on distributed systems, blockchain, and enterprise systems. Published 3 research papers.',
-    tech: ['solidity', 'C++', 'Javascript', 'Linux'],
-    type: 'education',
-  },
+  }
 ];

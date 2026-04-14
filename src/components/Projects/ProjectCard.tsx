@@ -1,174 +1,188 @@
-import { motion } from 'framer-motion';
+import { useState } from 'react';
+import { createPortal } from 'react-dom';
+import { motion, AnimatePresence } from 'framer-motion';
 import { playSound } from '../../hooks/useAudio';
 import type { Project } from '../../data/projects';
 
 interface ProjectCardProps {
   project: Project;
   index: number;
-  onClick: () => void;
+  featured?: boolean;
 }
 
-// Generate a unique gradient per project based on an index
-const gradients = [
-  'from-cyan-500/20 via-blue-600/10 to-purple-600/20',
-  'from-pink-500/20 via-red-500/10 to-orange-500/20',
-  'from-purple-500/20 via-indigo-500/10 to-blue-500/20',
-  'from-green-400/20 via-emerald-500/10 to-teal-500/20',
-  'from-yellow-400/20 via-amber-500/10 to-red-500/20',
-  'from-rose-500/20 via-pink-500/10 to-fuchsia-500/20',
-];
+export default function ProjectCard({ project, index, featured = false }: ProjectCardProps) {
+  const [blast, setBlast] = useState<{ x: number, y: number, active: boolean } | null>(null);
 
-const icons = ['⟐', '◈', '⬡', '◇', '⟡', '⬢'];
+  const handleNavigate = (e: React.MouseEvent | React.TouchEvent, link: string) => {
+    e.preventDefault();
+    e.stopPropagation();
+    playSound('click');
 
-export default function ProjectCard({ project, index, onClick }: ProjectCardProps) {
-  const isFeatured = project.featured;
-  const gradient = gradients[index % gradients.length];
-  const icon = icons[index % icons.length];
+    let x = 0;
+    let y = 0;
+    if ('touches' in e && e.touches.length > 0) {
+      x = e.touches[0].clientX;
+      y = e.touches[0].clientY;
+    } else {
+      x = (e as React.MouseEvent).clientX;
+      y = (e as React.MouseEvent).clientY;
+    }
+
+    setBlast({ x, y, active: true });
+
+    setTimeout(() => {
+      window.open(link, '_blank');
+      setBlast(null); // Reset after redirect
+    }, 900);
+  };
+
+  // Helper to auto-generate names from URLs (e.g. beamish-quokka -> Beamish Quokka)
+  const getAutoTitle = () => {
+    // If the data already contains the exact title intended by the user, respect it first:
+    // Actually, per instruction to auto-format from URL, we parse the URL heavily:
+    const urlString = project.live || project.github; // Prioritize live links for slug
+    if (urlString) {
+      try {
+        const url = new URL(urlString);
+        let slug = url.pathname.split('/').filter(Boolean).pop();
+        
+        if (!slug || slug === '') {
+          // If the link is the root of a deployment service, parse the subdomain
+          const hostnameParts = url.hostname.split('.');
+          if (hostnameParts.length > 2) {
+             slug = hostnameParts[0].replace(/-[a-z0-9]{6,20}$/i, ''); // Strip netlify/vercel/streamlit hashes
+          } else {
+             slug = hostnameParts[0];
+          }
+        }
+        
+        if (slug && slug.length > 2) { // Ensure slug is substantial and not a generic string
+          return slug
+            .split(/[-_]+/)
+            .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+            .join(' ');
+        }
+      } catch { /* graceful fallback */ }
+    }
+    return project.title;
+  };
+
+  const displayTitle = getAutoTitle();
 
   return (
     <motion.div
-      className={`relative cursor-pointer overflow-hidden group rounded-xl ${
-        isFeatured ? 'border-2 border-neon-pink' : 'border border-cyber-blue/20'
+      className={`relative group cursor-pointer overflow-hidden rounded-xl cyber-glass border ${
+        featured ? 'border-neon-pink/40 shadow-[0_0_15px_rgba(255,0,153,0.15)]' : 'border-cyber-blue/30 shadow-[0_0_15px_rgba(0,255,255,0.1)]'
       }`}
-      style={{ background: 'rgba(10,10,10,0.6)', backdropFilter: 'blur(20px)' }}
-      initial={{ opacity: 0, y: 50 }}
+      style={{
+        background: 'rgba(10, 10, 10, 0.5)',
+        backdropFilter: 'blur(12px)',
+      }}
+      initial={{ opacity: 0, y: 40 }}
       whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true }}
-      transition={{ duration: 0.6, delay: index * 0.1, type: 'spring', stiffness: 100 }}
+      viewport={{ once: true, margin: '-50px' }}
+      transition={{ duration: 0.6, delay: index * 0.1 }}
       whileHover={{
-        scale: 1.03,
-        boxShadow: isFeatured
-          ? '0 0 25px rgba(255,0,153,0.5), 0 0 50px rgba(255,0,153,0.15)'
-          : '0 0 25px rgba(0,255,255,0.4), 0 0 50px rgba(0,255,255,0.1)',
+        scale: 1.05,
+        boxShadow: featured
+          ? '0 0 35px rgba(255,0,153,0.6)'
+          : '0 0 30px rgba(0,255,255,0.5)',
       }}
       onHoverStart={() => playSound('hover')}
-      onClick={onClick}
+      onClick={(e) => {
+        const link = project.github || project.live;
+        if (link && !blast?.active) handleNavigate(e, link);
+      }}
     >
-      {/* Gradient thumbnail area */}
-      <div className={`relative h-32 bg-gradient-to-br ${gradient} overflow-hidden`}>
-        {/* Floating geometric icon */}
-        <motion.div
-          className="absolute inset-0 flex items-center justify-center"
-          animate={{ y: [0, -5, 0], rotate: [0, 3, -3, 0] }}
-          transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut' }}
-        >
-          <span className={`text-5xl opacity-30 ${isFeatured ? 'text-neon-pink' : 'text-cyber-blue'}`}>
-            {icon}
-          </span>
-        </motion.div>
+      {/* Floating continuous animation via inner wrapper */}
+      <motion.div
+        animate={{ y: [0, -4, 0] }}
+        transition={{ duration: 4 + (index % 3), repeat: Infinity, ease: 'easeInOut' }}
+        className="h-full flex flex-col"
+      >
+        {/* Glow gradient backplate */}
+        <div className={`absolute -inset-2 opacity-10 ${featured ? 'bg-gradient-to-br from-neon-pink to-transparent' : 'bg-gradient-to-br from-cyber-blue to-transparent'} pointer-events-none rounded-xl`} />
+        
+        {/* Content Wrapper */}
+        <div className="relative z-10 p-6 sm:p-8 flex flex-col h-full min-h-[220px]">
+          {/* Title */}
+          <h3 className={`font-cyber mb-3 ${featured ? 'text-2xl text-neon-pink tracking-widest' : 'text-xl text-cyber-blue tracking-wider'}`}>
+            {displayTitle}
+          </h3>
+          
+          {/* Description */}
+          <p className="font-code text-sm text-cyber-blue-dim leading-relaxed mb-6 flex-grow">
+            {project.description}
+          </p>
 
-        {/* Grid overlay on thumbnail */}
-        <div className="absolute inset-0 cyber-grid-bg opacity-20" />
-
-        {/* Scan line sweep */}
-        <motion.div
-          className="absolute left-0 right-0 h-[1px]"
-          style={{ background: 'linear-gradient(90deg, transparent, rgba(0,255,255,0.4), transparent)' }}
-          animate={{ top: ['0%', '100%'] }}
-          transition={{ duration: 3, repeat: Infinity, ease: 'linear' }}
-        />
-
-        {/* Featured badge */}
-        {isFeatured && (
-          <div className="absolute top-3 right-3 bg-neon-pink text-black px-2.5 py-1 text-[10px] font-bold font-cyber uppercase tracking-wider rounded-sm"
-            style={{ boxShadow: '0 0 10px rgba(255,0,153,0.5)' }}
-          >
-            ★ Featured
+          {/* Tech Stack Badges */}
+          <div className="flex flex-wrap gap-2 mt-auto relative z-20">
+            {project.tags.map(tag => (
+              <span
+                key={tag}
+                className={`px-2.5 py-1 text-[10px] font-code rounded border ${
+                  featured
+                    ? 'bg-neon-pink/10 text-neon-pink border-neon-pink/30'
+                    : 'bg-cyber-blue/10 text-cyber-blue border-cyber-blue/30'
+                }`}
+              >
+                [{tag}]
+              </span>
+            ))}
           </div>
+        </div>
+      </motion.div>
+
+      {/* Hover Overlay */}
+      <div className="absolute inset-0 bg-black/70 backdrop-blur-sm opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-30 flex flex-col items-center justify-center gap-4">
+        {project.github && (
+          <button 
+            className="cyber-button px-6 py-2.5 text-xs w-[60%] flex items-center justify-center gap-2"
+            onClick={(e) => !blast?.active && handleNavigate(e, project.github!)}
+            onTouchStart={(e) => !blast?.active && handleNavigate(e, project.github!)}
+          >
+            {'<>'} View Code
+          </button>
         )}
-
-        {/* Project number */}
-        <div className="absolute bottom-2 left-3 font-cyber text-[10px] text-white/20">
-          {String(index + 1).padStart(2, '0')}
-        </div>
+        {project.live && (
+          <button 
+            className="cyber-button-pink px-6 py-2.5 text-xs w-[60%] flex items-center justify-center gap-2 tracking-widest uppercase font-cyber"
+            onClick={(e) => !blast?.active && handleNavigate(e, project.live!)}
+            onTouchStart={(e) => !blast?.active && handleNavigate(e, project.live!)}
+          >
+            ▸ Live Demo
+          </button>
+        )}
       </div>
 
-      {/* Content */}
-      <div className="relative z-10 p-5">
-        {/* Corner accents */}
-        <div className="absolute top-0 left-0">
-          <div className={`absolute top-0 left-0 w-5 h-[1px] ${isFeatured ? 'bg-neon-pink/50' : 'bg-cyber-blue/30'}`} />
-          <div className={`absolute top-0 left-0 w-[1px] h-5 ${isFeatured ? 'bg-neon-pink/50' : 'bg-cyber-blue/30'}`} />
-        </div>
-        <div className="absolute bottom-0 right-0">
-          <div className={`absolute bottom-0 right-0 w-5 h-[1px] ${isFeatured ? 'bg-neon-pink/50' : 'bg-cyber-blue/30'}`} />
-          <div className={`absolute bottom-0 right-0 w-[1px] h-5 ${isFeatured ? 'bg-neon-pink/50' : 'bg-cyber-blue/30'}`} />
-        </div>
-
-        <h3 className={`font-cyber text-sm md:text-base uppercase tracking-wider mb-2 ${
-          isFeatured ? 'neon-text-pink' : 'neon-text'
-        }`}>
-          {project.title}
-        </h3>
-
-        <p className="font-code text-cyber-blue-dim text-xs mb-4 line-clamp-2 leading-relaxed">
-          {project.description}
-        </p>
-
-        <div className="flex flex-wrap gap-1.5 mb-4">
-          {project.tags.slice(0, 4).map((tag) => (
-            <span
-              key={tag}
-              className={`px-2 py-0.5 text-[10px] font-code rounded border ${
-                isFeatured
-                  ? 'bg-neon-pink/10 text-neon-pink border-neon-pink/20'
-                  : 'bg-cyber-blue/10 text-cyber-blue border-cyber-blue/20'
-              }`}
-            >
-              {tag}
-            </span>
-          ))}
-        </div>
-
-        <div className="flex gap-2">
-          {project.github && (
-            <button
-              className="cyber-button text-[10px] py-1.5 px-3 flex items-center gap-1.5"
-              onClick={(e) => {
-                e.stopPropagation();
-                playSound('click');
-                window.open(project.github, '_blank');
-              }}
-            >
-              {'<>'} Code
-            </button>
-          )}
-          {project.live && (
-            <button
-              className="cyber-button-pink text-[10px] py-1.5 px-3 flex items-center gap-1.5"
-              onClick={(e) => {
-                e.stopPropagation();
-                playSound('click');
-                window.open(project.live, '_blank');
-              }}
-            >
-              ▸ Demo
-            </button>
-          )}
-        </div>
-      </div>
-
-      {/* Hover glow overlay */}
-      <div className={`absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none ${
-        isFeatured
-          ? 'bg-gradient-to-t from-neon-pink/5 to-transparent'
-          : 'bg-gradient-to-t from-cyber-blue/5 to-transparent'
-      }`} />
-
-      {/* Hover sparkle particles */}
-      <div className="absolute inset-0 pointer-events-none overflow-hidden">
-        {[...Array(5)].map((_, i) => (
+      {/* Cinematic Blast Effect */}
+      {blast?.active && typeof document !== 'undefined' && createPortal(
+        <AnimatePresence>
           <motion.div
-            key={i}
-            className={`absolute w-0.5 h-0.5 rounded-full opacity-0 group-hover:opacity-100 ${
-              isFeatured ? 'bg-neon-pink' : 'bg-cyber-blue'
-            }`}
-            style={{ left: `${15 + i * 18}%`, top: `${25 + i * 12}%` }}
-            animate={{ y: [-5, -20, -5], opacity: [0, 0.6, 0] }}
-            transition={{ duration: 2, repeat: Infinity, delay: i * 0.25 }}
+            className="fixed z-[9999] rounded-full pointer-events-none mix-blend-screen"
+            style={{
+              left: blast.x,
+              top: blast.y,
+              width: '30px',
+              height: '30px',
+              background: 'radial-gradient(circle, rgba(255,165,0,1) 0%, rgba(255,0,0,0.8) 40%, rgba(255,0,153,0) 80%)',
+              x: '-50%',
+              y: '-50%',
+              boxShadow: '0 0 50px 20px rgba(255,165,0,0.5)',
+            }}
+            initial={{ scale: 1, opacity: 1 }}
+            animate={{ scale: 150, opacity: 0 }}
+            transition={{ duration: 1, ease: 'easeOut' }}
           />
-        ))}
-      </div>
+        </AnimatePresence>,
+        document.body
+      )}
+
+      {/* Corner Accents */}
+      <div className={`absolute top-0 left-0 w-6 h-[2px] ${featured ? 'bg-neon-pink' : 'bg-cyber-blue'} pointer-events-none`} />
+      <div className={`absolute top-0 left-0 w-[2px] h-6 ${featured ? 'bg-neon-pink' : 'bg-cyber-blue'} pointer-events-none`} />
+      <div className={`absolute bottom-0 right-0 w-6 h-[2px] ${featured ? 'bg-neon-pink/50' : 'bg-cyber-blue/50'} pointer-events-none`} />
+      <div className={`absolute bottom-0 right-0 w-[2px] h-6 ${featured ? 'bg-neon-pink/50' : 'bg-cyber-blue/50'} pointer-events-none`} />
     </motion.div>
   );
 }

@@ -52,12 +52,12 @@ export default function HeroSection({ onHackClick }: HeroSectionProps) {
           <h1
             className="font-cyber text-2xl sm:text-3xl md:text-4xl lg:text-5xl neon-text-pink leading-tight text-left"
           >
-            I don't design pixels.
+            I build intelligent systems
             <br />
-            I engineer the backbone.
+            that turn data into decisions.
           </h1>
           <p className="font-code text-cyber-blue-dim text-base md:text-lg mt-4 tracking-widest opacity-70 text-right">
-            — Mayank Sharma
+            — Pavan Sharma
           </p>
         </motion.div>
 
@@ -83,7 +83,7 @@ export default function HeroSection({ onHackClick }: HeroSectionProps) {
               }}
             >
               <span className="mr-2">⚡</span>
-              Hack into Mayank's Info
+              Hack into Pavan's Info
             </button>
           </motion.div>
         )}

@@ -8,22 +8,18 @@ import SectionDivider from './effects/SectionDivider';
 import ScrollProgress from './effects/ScrollProgress';
 import HeroSection from './Hero/HeroSection';
 import AboutSection from './AboutMe/AboutSection';
-import ProjectVerse from './Projects/ProjectVerse';
-import EnhancedPortal from './Projects/EnhancedPortal';
+import ProjectsSection from './Projects/ProjectsSection';
 import ExperienceSection from './Experience/ExperienceSection';
 import BlogSection from './Blog/BlogSection';
 import ToolboxSection from './Toolbox/ToolboxSection';
 import ContactSection from './Contact/ContactSection';
 import StatsCounter from './effects/StatsCounter';
-import type { Project } from '../data/projects';
 
 const StarfieldBackground = lazy(() => import('./effects/StarfieldBackground'));
 
 export default function Layout() {
   const { booted, showAbout, scrollLocked, setBoot, setShowAbout, setScrollLocked } =
     useAppStore();
-
-  const [selectedProject, setSelectedProject] = useState<Project | null>(null);
 
   const handleHackClick = () => {
     setShowAbout(true);
@@ -80,10 +76,8 @@ export default function Layout() {
               <StatsCounter />
               <SectionDivider />
 
-              {/* 3D Project Verse */}
-              <ProjectVerse
-                onSelectProject={(p) => setSelectedProject(p)}
-              />
+              {/* Projects Grid */}
+              <ProjectsSection />
 
               {/* Sections after verse — always rendered */}
               <SectionDivider />
@@ -101,16 +95,6 @@ export default function Layout() {
 
       {/* About overlay */}
       <AboutSection isVisible={showAbout} onEscape={handleEscape} />
-
-      {/* Project Portal overlay */}
-      <AnimatePresence>
-        {selectedProject && (
-          <EnhancedPortal
-            project={selectedProject}
-            onClose={() => setSelectedProject(null)}
-          />
-        )}
-      </AnimatePresence>
 
       {/* Scroll-to-top */}
       {booted && !showAbout && (

@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { playSound } from '../../hooks/useAudio';
+import { LOGO } from '../../constants/brand';
 
 const GFORM_URL = 'https://docs.google.com/forms/d/e/1FAIpQLSd-4LxWG4YRlzwTNtunzkDdPvWUHEam5pQPjwNT3cI_ihwbSQ/formResponse';
 const ENTRY_NAME = 'entry.637031929';
@@ -92,17 +93,15 @@ export default function ContactSection() {
   };
 
   const contactItems = [
-    { icon: '📧', label: 'Email', value: 'mayank275sharma@gmail.com', href: 'mailto:mayank275sharma@gmail.com' },
-    { icon: '🔗', label: 'GitHub', value: 'github.com/Ms-10182', href: 'https://github.com/Ms-10182' },
-    { icon: '💼', label: 'LinkedIn', value: 'mayank-sharma-078278243', href: 'https://www.linkedin.com/in/mayank-sharma-078278243/' },
-    { icon: '🐦', label: 'Twitter/X', value: '@mayank_275', href: 'https://x.com/Mayank_275' },
+    { icon: '📧', label: 'Email', href: 'mailto:ps3297169@gmail.com' },
+    { icon: '🔗', label: 'GitHub', href: 'https://github.com/Pavan8104' },
+    { icon: '💼', label: 'LinkedIn', href: 'https://www.linkedin.com/in/pavan-sharma-1645ab276/' },
+    { icon: '🚀', label: 'Projects', href: 'https://github.com/Pavan8104' },
   ];
 
   const socialLinks = [
-    { name: 'GitHub', url: 'https://github.com', icon: '⟐' },
-    { name: 'LinkedIn', url: 'https://www.linkedin.com/in/mayank-sharma-078278243/', icon: '◈' },
-    { name: 'Twitter', url: 'https://x.com/Mayank_275', icon: '⬡' },
-    { name: 'Discord', url: '#', icon: '◇' },
+    { name: 'GitHub', url: 'https://github.com/Pavan8104', icon: '⟐' },
+    { name: 'LinkedIn', url: 'https://www.linkedin.com/in/pavan-sharma-1645ab276/', icon: '◈' },
   ];
 
   return (
@@ -136,46 +135,46 @@ export default function ContactSection() {
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
           >
-            <h3 className="cyber-heading text-lg neon-text-purple mb-6">Connect</h3>
+            <h3 className="cyber-heading text-lg neon-text-purple mb-8 text-center md:text-left">Connect</h3>
 
-            <div className="space-y-3 mb-8">
+            <div className="flex flex-col sm:flex-row flex-wrap gap-3 justify-center items-center">
               {contactItems.map((item, i) => (
                 <motion.a
                   key={item.label}
                   href={item.href}
-                  target="_blank"
+                  target={item.label === 'Projects' ? undefined : "_blank"}
                   rel="noopener noreferrer"
-                  className="flex items-center gap-3 p-3 rounded-lg hover:bg-white/5 transition-all group border border-transparent hover:border-cyber-blue/15"
-                  initial={{ opacity: 0, x: -20 }}
-                  whileInView={{ opacity: 1, x: 0 }}
+                  className="cyber-button py-3 px-6 flex items-center justify-center gap-3 w-full sm:w-auto flex-1 min-w-[140px]"
+                  initial={{ opacity: 0, scale: 0.9 }}
+                  whileInView={{ opacity: 1, scale: 1 }}
                   viewport={{ once: true }}
                   transition={{ delay: i * 0.1 }}
                   onMouseEnter={() => playSound('hover')}
-                  whileHover={{ x: 5 }}
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  onClick={(e) => {
+                    if (item.label === 'Projects') {
+                      e.preventDefault();
+                      playSound('click');
+                      document.getElementById("projects")?.scrollIntoView({ behavior: "smooth" });
+                    }
+                  }}
                 >
-                  <span className="text-xl w-8 h-8 flex items-center justify-center rounded-lg bg-cyber-blue/5 group-hover:bg-cyber-blue/10 transition-colors">
-                    {item.icon}
-                  </span>
-                  <div className="flex-1 min-w-0">
-                    <span className="text-cyber-blue-dim text-[10px] block uppercase tracking-wider">{item.label}</span>
-                    <span className="text-cyber-blue font-code text-sm truncate block">{item.value}</span>
-                  </div>
-                  <span className="text-cyber-blue-dim text-xs opacity-0 group-hover:opacity-100 transition-opacity">→</span>
+                  <span className="text-xl">{item.icon}</span>
+                  <span className="font-code text-xs uppercase tracking-wider">{item.label}</span>
                 </motion.a>
               ))}
             </div>
 
             {/* Resume button */}
             <motion.a
-              href="https://1drv.ms/f/c/2d4592b27b627992/IgCoByK9Pfe2S5fqYDMxBS0UAWdHOcuZRnkahHj41-ZKp9A?e=Dul9sc"
-              target="_blank"
-              rel="noopener noreferrer"
+              href="#"
               className="cyber-button w-full text-center py-3 flex items-center justify-center gap-2"
               whileHover={{ scale: 1.02, y: -2 }}
               whileTap={{ scale: 0.98 }}
               onClick={() => playSound('click')}
             >
-              <span>📄</span> View Resume
+              <span>📄</span> Resume Coming Soon
             </motion.a>
           </motion.div>
 
@@ -297,10 +296,10 @@ export default function ContactSection() {
             {/* Logo + copyright */}
             <div className="flex flex-col items-center md:items-start gap-1">
               <div className="font-cyber text-sm text-cyber-blue">
-                <span className="text-neon-pink">{'<'}</span>MS<span className="text-neon-pink">{'/>'}</span>
+                <span className="text-neon-pink">{'<'}</span>{LOGO}<span className="text-neon-pink">{'/>'}</span>
               </div>
               <p className="font-code text-[10px] text-cyber-blue-dim">
-                Designed & Built by <span className="text-neon-pink">Mayank Sharma with AI</span> — {new Date().getFullYear()}
+                Designed & Built by <span className="text-neon-pink">Pavan Sharma</span> — {new Date().getFullYear()}
               </p>
             </div>
 

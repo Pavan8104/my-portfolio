@@ -6,12 +6,12 @@ interface BootScreenProps {
 }
 
 const asciiLogo = [
-  '  ██████╗██╗   ██╗██████╗ ███████╗██████╗ ',
-  ' ██╔════╝╚██╗ ██╔╝██╔══██╗██╔════╝██╔══██╗',
-  ' ██║      ╚████╔╝ ██████╔╝█████╗  ██████╔╝',
-  ' ██║       ╚██╔╝  ██╔══██╗██╔══╝  ██╔══██╗',
-  ' ╚██████╗   ██║   ██████╔╝███████╗██║  ██║',
-  '  ╚═════╝   ╚═╝   ╚═════╝ ╚══════╝╚═╝  ╚═╝',
+  ' ██████╗  ██╗ ███████╗',
+  ' ██╔══██╗ ██║ ██╔════╝',
+  ' ██████╔╝ ██║ ███████╗',
+  ' ██╔═══╝  ██║ ╚════██║',
+  ' ██║      ██║ ███████║',
+  ' ╚═╝      ╚═╝ ╚══════╝',
 ];
 
 const bootLines = [
@@ -104,7 +104,7 @@ export default function BootScreen({ onComplete }: BootScreenProps) {
                 <div className="w-2.5 h-2.5 rounded-full bg-yellow-500/80" />
                 <div className="w-2.5 h-2.5 rounded-full bg-green-500/80" />
                 <span className="ml-3 text-[10px] text-cyber-blue-dim font-code tracking-wider">
-                  system_boot.sh — cybercore@terminal
+                  system_boot.sh — pavan@terminal
                 </span>
               </div>
 
@@ -141,7 +141,7 @@ export default function BootScreen({ onComplete }: BootScreenProps) {
               {/* Progress bar */}
               <div className="mt-5">
                 <div className="flex justify-between text-[10px] text-cyber-blue-dim mb-1.5 font-code">
-                  <span>Initializing Portfolio v2.0</span>
+                  <span>Initializing Pavan's Portfolio</span>
                   <span className="tabular-nums">{Math.min(Math.round(progress), 100)}%</span>
                 </div>
                 <div className="w-full bg-cyber-dark rounded-full h-1.5 overflow-hidden">
