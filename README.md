@@ -1,73 +1,92 @@
-# React + TypeScript + Vite
+# Pavan Sharma — Portfolio 🚀
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This is my personal portfolio website where I showcase my projects, skills, and experience in AI, Data Science, and Backend Development.
 
-Currently, two official plugins are available:
+I built this to have a single place where anyone can explore what I’ve been working on and how I approach building real-world systems.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## 🌐 Live Website
 
-## React Compiler
+👉 *(Add your deployed link here)*
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## 👨‍💻 About Me
 
-## Expanding the ESLint configuration
+I’m a Computer Science student focused on building systems around:
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+* Artificial Intelligence
+* Data Science
+* Backend Engineering
+* Problem Solving (DSA)
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+I enjoy working on projects that combine data, logic, and real-world impact.
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+## 🛠️ Tech Stack
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+### Core Development
+
+* Python, JavaScript, C++
+
+### AI & Data
+
+* Pandas, NumPy, Scikit-learn
+* NLP, EDA, Feature Engineering
+* Matplotlib, Seaborn
+
+### Backend
+
+* FastAPI, REST APIs
+* Pydantic, SQLAlchemy
+* JWT Authentication, RBAC
+
+### Database
+
+* PostgreSQL, MongoDB
+
+### DevOps & Tools
+
+* Docker, GitHub Actions
+* AWS (EC2, S3, Lambda)
+* Linux / Shell
+
+### Frontend
+
+* React.js, Tailwind CSS
+* Framer Motion
+
+## 📂 Projects
+
+Some of the key projects featured:
+
+* Web Traffic Analyzer
+* LLM Red Teaming Framework
+* AI-based Applications
+* Full-stack Web Projects
+
+Each project includes a live demo and source code.
+
+## ✉️ Contact
+
+The website includes a working contact form.
+If you send a message, it directly reaches my email.
+
+## 🚀 How to Run Locally
+
+```bash
+git clone https://github.com/Pavan8104/my-portfolio.git
+cd my-portfolio
+npm install
+npm run dev
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## ⚠️ Note
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+Environment variables are used for EmailJS integration.
+Make sure to create a `.env` file with the required keys before running locally.
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+## 🎯 Purpose
+
+This portfolio is not just a showcase — it reflects how I think, build, and improve as an engineer.
+
+## 📌 Final Thoughts
+
+Still improving, still building.
+Always open to feedback and opportunities.
