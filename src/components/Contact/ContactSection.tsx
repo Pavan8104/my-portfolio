@@ -62,10 +62,10 @@ export default function ContactSection() {
     setSending(true);
 
     emailjs.sendForm(
-      'YOUR_SERVICE_ID',
-      'YOUR_TEMPLATE_ID',
+      import.meta.env.VITE_EMAILJS_SERVICE_ID,
+      import.meta.env.VITE_EMAILJS_TEMPLATE_ID,
       e.currentTarget,
-      'YOUR_PUBLIC_KEY'
+      import.meta.env.VITE_EMAILJS_PUBLIC_KEY
     )
     .then(() => {
       // Update rate limit
@@ -76,11 +76,10 @@ export default function ContactSection() {
       setSent(true);
       setTimeout(() => setSent(false), 4000);
       setFormData({ name: '', email: '', message: '' });
-      console.log('Message sent successfully');
     })
     .catch((error) => {
       setSending(false);
-      console.error('Email failed:', error);
+      setError('Failed to send message ❌');
     });
   };
 
@@ -259,7 +258,7 @@ export default function ContactSection() {
                       animate={{ opacity: 1 }}
                       exit={{ opacity: 0 }}
                     >
-                      ⚠ {error}
+                      {error}
                     </motion.div>
                   )}
                 </AnimatePresence>
@@ -274,7 +273,7 @@ export default function ContactSection() {
                       exit={{ opacity: 0, y: -10 }}
                       style={{ boxShadow: '0 0 15px rgba(0,255,65,0.2)' }}
                     >
-                      ✓ Transmission received successfully
+                      Message sent successfully 🚀
                     </motion.div>
                   )}
                 </AnimatePresence>
