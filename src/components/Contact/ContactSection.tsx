@@ -4,7 +4,7 @@ import { playSound } from '../../hooks/useAudio';
 import { LOGO } from '../../constants/brand';
 import emailjs from '@emailjs/browser';
 
-const COOLDOWN_MS = 60_000; // 60 seconds between messages
+const COOLDOWN_MS = 30_000; // 30 seconds between messages
 const DAILY_LIMIT = 3;
 const STORAGE_KEY = 'contact_rate';
 
@@ -21,7 +21,7 @@ function setRateData(data: { lastSent: number; dailyCount: number; dailyDate: st
 }
 
 export default function ContactSection() {
-  const [formData, setFormData] = useState({ name: '', email: '', message: '' });
+  const [formData, setFormData] = useState({ name: '', email: '', message: '', company: '' });
   const [sending, setSending] = useState(false);
   const [sent, setSent] = useState(false);
   const [error, setError] = useState('');
@@ -39,23 +39,43 @@ export default function ContactSection() {
     return () => clearInterval(interval);
   }, [sent]);
 
+  const sanitizeInput = (str: string) => {
+    return str.replace(/<[^>]*>?/gm, '').trim(); 
+  };
+
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    playSound('click');
-    setError('');
+    if (sending) return;
 
-    // Rate limit checks
+    if (formData.company !== '') {
+      console.warn('Silent block: automated submission detected.');
+      return;
+    }
+
+    const formEl = e.currentTarget;
+    const nameInput = formEl.elements.namedItem('name') as HTMLInputElement;
+    const msgInput = formEl.elements.namedItem('message') as HTMLTextAreaElement;
+    if (nameInput) nameInput.value = sanitizeInput(formData.name);
+    if (msgInput) msgInput.value = sanitizeInput(formData.message);
+
+    if (!nameInput?.value || !msgInput?.value || !formData.email.includes('@')) {
+      console.warn('Silent block: Invalid fields detected.');
+      return;
+    }
+
+    playSound('click');
+
     const rate = getRateData();
     const today = new Date().toDateString();
     const dailyCount = rate.dailyDate === today ? rate.dailyCount : 0;
-
     const elapsed = Date.now() - rate.lastSent;
+
     if (elapsed < COOLDOWN_MS) {
-      setError(`Please wait ${Math.ceil((COOLDOWN_MS - elapsed) / 1000)}s before sending again.`);
+      console.warn(`Silent block: Rate limit exceeded.`);
       return;
     }
     if (dailyCount >= DAILY_LIMIT) {
-      setError(`Daily limit reached (${DAILY_LIMIT} messages). Try again tomorrow.`);
+      console.warn(`Silent block: Daily limit reached.`);
       return;
     }
 
@@ -75,11 +95,11 @@ export default function ContactSection() {
       setSending(false);
       setSent(true);
       setTimeout(() => setSent(false), 4000);
-      setFormData({ name: '', email: '', message: '' });
+      setFormData({ name: '', email: '', message: '', company: '' });
     })
-    .catch((error) => {
+    .catch((err) => {
       setSending(false);
-      setError('Failed to send message ❌');
+      console.error('Email failed:', err);
     });
   };
 
@@ -183,6 +203,17 @@ export default function ContactSection() {
             <h3 className="cyber-heading text-lg neon-text-purple mb-6">Send Message</h3>
 
             <form onSubmit={handleSubmit} className="space-y-4">
+              <input 
+                type="text" 
+                name="company" 
+                style={{ display: 'none' }} 
+                value={formData.company}
+                onChange={(e) => setFormData({ ...formData, company: e.target.value })}
+                tabIndex={-1} 
+                autoComplete="off" 
+              />
+              <div id="recaptcha-hook" style={{ display: 'none' }}></div>
+
               {/* Name */}
               <div>
                 <label className="text-cyber-blue-dim text-[10px] font-code block mb-1.5 uppercase tracking-wider">
