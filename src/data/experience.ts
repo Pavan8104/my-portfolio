@@ -52,6 +52,16 @@ export const experiences: Experience[] = [
   },
   {
     id: 'exp-5',
+    role: 'Executive Member (Volunteer)',
+    company: 'Computer Society of India (CSI)',
+    period: '2023 - 2024',
+    description: 'Actively contributed as an executive member in CSI student chapter. Participated in technical events, hackathons, and coding activities. Collaborated with team members to promote technical learning and innovation.',
+    tech: ['Event Management', 'Hackathons', 'Team Collaboration'],
+    type: 'freelance',
+    linkedin: 'https://www.linkedin.com/posts/pavan-sharma-1645ab276_im-happy-to-share-that-im-starting-a-new-activity-7115583914370347009-je32',
+  },
+  {
+    id: 'exp-6',
     role: 'Computer Science Undergraduate',
     company: 'Chandigarh University',
     period: 'Current',

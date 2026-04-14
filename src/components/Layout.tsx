@@ -11,6 +11,7 @@ import AboutSection from './AboutMe/AboutSection';
 import ProjectsSection from './Projects/ProjectsSection';
 import ExperienceSection from './Experience/ExperienceSection';
 import AchievementsSection from './Achievements/AchievementsSection';
+import CertificationsSection from './Certifications/CertificationsSection';
 import BlogSection from './Blog/BlogSection';
 import ToolboxSection from './Toolbox/ToolboxSection';
 import ContactSection from './Contact/ContactSection';
@@ -85,6 +86,8 @@ export default function Layout() {
               <ExperienceSection />
               <SectionDivider />
               <AchievementsSection />
+              <SectionDivider />
+              <CertificationsSection />
               <SectionDivider />
               <ToolboxSection />
               <SectionDivider />

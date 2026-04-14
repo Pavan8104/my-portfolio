@@ -1,13 +1,14 @@
 import { motion } from 'framer-motion';
-import { achievements } from '../../data/achievements';
+import { certifications } from '../../data/certifications';
 import { playSound } from '../../hooks/useAudio';
 
-export default function AchievementsSection() {
+export default function CertificationsSection() {
   // Group by category dynamically from data
-  const categories = Array.from(new Set(achievements.map((a) => a.category)));
+  // Using Set ensures unique categories, maintaining the order they appear in the data
+  const categories = Array.from(new Set(certifications.map((c) => c.category)));
 
   return (
-    <section id="achievements" className="relative py-24 overflow-hidden">
+    <section id="certifications" className="relative py-24 overflow-hidden">
       <div className="absolute inset-0 cyber-grid-bg opacity-10" />
 
       <div className="container mx-auto px-4 relative z-10">
@@ -19,19 +20,21 @@ export default function AchievementsSection() {
           transition={{ duration: 0.8 }}
         >
           <p className="font-code text-xs text-cyber-blue-dim tracking-widest uppercase mb-3">
-            {'// TROPHIES & PUBLICATIONS'}
+            {'// VALIDATION & MASTERY'}
           </p>
-          <h2 className="cyber-heading text-3xl md:text-5xl neon-text-pink">Achievements</h2>
+          <h2 className="cyber-heading text-3xl md:text-5xl neon-text-pink">Certifications</h2>
         </motion.div>
 
         <div className="max-w-4xl mx-auto">
           {categories.map((category) => {
-            const items = achievements.filter((a) => a.category === category);
+            const items = certifications.filter((c) => c.category === category);
             return (
               <div key={category} className="mb-12 last:mb-0 w-full">
                 <h3 className="cyber-heading text-xl md:text-2xl text-cyber-blue mb-8 border-b border-cyber-blue/20 pb-4 inline-block">
                   <span className="text-neon-pink">{'[ '}</span>{category}<span className="text-neon-pink">{' ]'}</span>
                 </h3>
+                
+                {/* Responsive Grid mapping explicitly to 1/2/3 columns across breakpoints */}
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 w-full">
                   {items.map((item, index) => (
                     <motion.div
@@ -43,7 +46,7 @@ export default function AchievementsSection() {
                       onMouseEnter={() => playSound('hover')}
                       className="cyber-glass p-6 md:p-8 rounded-xl border border-cyber-blue/30 hover:shadow-[0_0_15px_rgba(0,255,255,0.2)] transition-shadow duration-300 flex flex-col sm:flex-row gap-6 sm:items-center justify-between"
                     >
-                        <h4 className="flex-1 font-cyber text-lg md:text-xl text-cyber-blue tracking-wider mb-0 text-center sm:text-left">
+                        <h4 className="flex-1 font-cyber text-[15px] md:text-lg text-cyber-blue tracking-wider mb-0 text-center sm:text-left leading-relaxed">
                           {item.title}
                         </h4>
                       
