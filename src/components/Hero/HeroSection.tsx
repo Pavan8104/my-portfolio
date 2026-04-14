@@ -63,12 +63,13 @@ export default function HeroSection({ onHackClick }: HeroSectionProps) {
 
 
 
-        {/* Hack button */}
+        {/* Actions Container */}
         {showButton && (
           <motion.div
             initial={{ opacity: 0, y: 30, scale: 0.9 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             transition={{ duration: 0.6, type: 'spring', stiffness: 120 }}
+            className="flex flex-col sm:flex-row items-center justify-center gap-6"
           >
             <button
               onClick={() => {
@@ -76,15 +77,27 @@ export default function HeroSection({ onHackClick }: HeroSectionProps) {
                 onHackClick();
               }}
               onMouseEnter={() => playSound('hover')}
-              className="cyber-button-pink text-base md:text-lg px-8 py-4 animate-glow-pulse"
+              className="cyber-button-pink text-base md:text-lg px-8 py-4 animate-glow-pulse w-full sm:w-auto flex items-center justify-center gap-2 transition-transform hover:scale-105"
               style={{
                 boxShadow:
                   '0 0 15px rgba(255,0,153,0.4), 0 0 30px rgba(255,0,153,0.2), inset 0 0 15px rgba(255,0,153,0.1)',
               }}
             >
-              <span className="mr-2">⚡</span>
+              <span>⚡</span>
               Hack into Pavan's Info
             </button>
+
+            <a
+              href="/resume.pdf"
+              target="_blank"
+              rel="noopener noreferrer"
+              download
+              onMouseEnter={() => playSound('hover')}
+              className="cyber-button text-base md:text-lg px-8 py-4 w-full sm:w-auto flex items-center justify-center gap-2 transition-transform duration-300 hover:scale-105"
+            >
+              <span>📄</span>
+              Download Resume
+            </a>
           </motion.div>
         )}
 

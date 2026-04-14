@@ -168,13 +168,16 @@ export default function ContactSection() {
 
             {/* Resume button */}
             <motion.a
-              href="#"
-              className="cyber-button w-full text-center py-3 flex items-center justify-center gap-2"
-              whileHover={{ scale: 1.02, y: -2 }}
-              whileTap={{ scale: 0.98 }}
+              href="/resume.pdf"
+              target="_blank"
+              rel="noopener noreferrer"
+              download
+              className="cyber-button w-full text-center py-3 flex items-center justify-center gap-2 mt-4"
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
               onClick={() => playSound('click')}
             >
-              <span>📄</span> Resume Coming Soon
+              <span>📄</span> Download Resume
             </motion.a>
           </motion.div>
 
