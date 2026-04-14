@@ -10,6 +10,7 @@ import HeroSection from './Hero/HeroSection';
 import AboutSection from './AboutMe/AboutSection';
 import ProjectsSection from './Projects/ProjectsSection';
 import ExperienceSection from './Experience/ExperienceSection';
+import AchievementsSection from './Achievements/AchievementsSection';
 import BlogSection from './Blog/BlogSection';
 import ToolboxSection from './Toolbox/ToolboxSection';
 import ContactSection from './Contact/ContactSection';
@@ -82,6 +83,8 @@ export default function Layout() {
               {/* Sections after verse — always rendered */}
               <SectionDivider />
               <ExperienceSection />
+              <SectionDivider />
+              <AchievementsSection />
               <SectionDivider />
               <ToolboxSection />
               <SectionDivider />
