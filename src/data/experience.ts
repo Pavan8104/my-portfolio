@@ -42,6 +42,16 @@ export const experiences: Experience[] = [
   },
   {
     id: 'exp-4',
+    role: 'Executive Member (Volunteer)',
+    company: 'IEEE CUSB (Chandigarh University Student Branch)',
+    period: '2023 - 2024',
+    description: 'Actively contributed as an executive member in IEEE student branch. Participated in organizing technical events and initiatives, collaborating with team members to promote technical learning and innovation.',
+    tech: ['Leadership', 'Event Management', 'Teamwork'],
+    type: 'freelance',
+    linkedin: 'https://www.linkedin.com/posts/pavan-sharma-1645ab276_ieee-chandigarhuniversity-manthan4-activity-7162159847805739008-M-vK',
+  },
+  {
+    id: 'exp-5',
     role: 'Computer Science Undergraduate',
     company: 'Chandigarh University',
     period: 'Current',
