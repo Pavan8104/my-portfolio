@@ -1,26 +1,92 @@
-export interface Tool {
-  name: string;
-  category: string;
-  description: string;
-  icon: string;
-  color: string;
+export interface SkillSubcategory {
+  title: string;
+  skills: string[];
 }
 
-export const tools: Tool[] = [
-  // Core Skills
-  { name: 'Data Structures & Algorithms', category: 'Core Skills', description: 'Advanced problem-solving and optimization', icon: '🧠', color: '#8A2BE2' },
-  { name: 'AI & Machine Learning', category: 'Core Skills', description: 'Building intelligent systems using large language models', icon: '🤖', color: '#06B6D4' },
-  { name: 'Data Science', category: 'Core Skills', description: 'Analyzing data to derive actionable insights', icon: '📊', color: '#F46800' },
-  { name: 'Full Stack Development', category: 'Core Skills', description: 'Building end-to-end web and backend applications', icon: '🌐', color: '#339933' },
+export interface SkillCategory {
+  category: string;
+  subcategories: SkillSubcategory[];
+}
 
-  // Tech Stack
-  { name: 'Python', category: 'Tech Stack', description: 'High-level programming language for AI and backend', icon: '🐍', color: '#FFD43B' },
-  { name: 'C++', category: 'Tech Stack', description: 'High-performance systems and competitive programming', icon: '🚀', color: '#00599C' },
-  { name: 'Java', category: 'Tech Stack', description: 'Object-oriented programming language', icon: '☕', color: '#F89820' },
-  { name: 'JavaScript', category: 'Tech Stack', description: 'Dynamic programming language for web', icon: '▲', color: '#F7DF1E' },
-  { name: 'HTML & CSS', category: 'Tech Stack', description: 'Markup and styling for web interfaces', icon: '🎨', color: '#E34F26' },
-  { name: 'DBMS', category: 'Tech Stack', description: 'Database management systems', icon: '🗄️', color: '#4169E1' },
-  { name: 'Git & GitHub', category: 'Tech Stack', description: 'Version control and collaboration', icon: '🐙', color: '#F05032' },
+export const toolCategories: SkillCategory[] = [
+  {
+    category: 'Intelligence & AI Safety',
+    subcategories: [
+      {
+        title: 'Generative AI',
+        skills: ['RAG (Retrieval-Augmented Generation)', 'Agentic Workflows', 'LangChain', 'LlamaIndex']
+      },
+      {
+        title: 'AI Safety & Evaluation',
+        skills: ['LLM Red Teaming', 'Adversarial Robustness', 'Model Alignment', 'Safety Guardrails']
+      },
+      {
+        title: 'Machine Learning',
+        skills: ['Scikit-learn', 'NLP', 'Predictive Modeling (Regression/Classification)']
+      },
+      {
+        title: 'Vector Infrastructure',
+        skills: ['ChromaDB', 'Pinecone', 'Semantic Search Optimization']
+      }
+    ]
+  },
+  {
+    category: 'Backend & Engineering',
+    subcategories: [
+      {
+        title: 'Core Languages',
+        skills: ['Python (Expert)', 'SQL (PostgreSQL)', 'JavaScript', 'C++ (Fundamentals)']
+      },
+      {
+        title: 'API Architecture',
+        skills: ['FastAPI', 'RESTful Design', 'Pydantic (Data Validation)']
+      },
+      {
+        title: 'Data Engineering',
+        skills: ['Pandas', 'NumPy', 'ETL Pipelines', 'Automated Feature Engineering']
+      },
+      {
+        title: 'Data Science',
+        skills: ['Exploratory Data Analysis (EDA)', 'Statistical Modeling', 'Jupyter Ecosystem']
+      }
+    ]
+  },
+  {
+    category: 'Infrastructure & Cloud',
+    subcategories: [
+      {
+        title: 'Containerization',
+        skills: ['Docker', 'Multi-stage Builds']
+      },
+      {
+        title: 'Cloud Services',
+        skills: ['AWS (EC2, S3, Lambda)', 'Serverless Architecture']
+      },
+      {
+        title: 'CI/CD & Version Control',
+        skills: ['GitHub Actions', 'Git', 'Automated Testing (Pytest)']
+      },
+      {
+        title: 'Environment',
+        skills: ['Linux/Unix', 'Shell Scripting (Bash)', 'Security Risk Management']
+      }
+    ]
+  },
+  {
+    category: 'Interface & Specialized Tooling',
+    subcategories: [
+      {
+        title: 'Frontend',
+        skills: ['React.js', 'Tailwind CSS', 'Framer Motion']
+      },
+      {
+        title: 'AI Prototyping',
+        skills: ['Streamlit', 'Gradio']
+      },
+      {
+        title: 'Visualization',
+        skills: ['Matplotlib', 'Seaborn', 'Plotly']
+      }
+    ]
+  }
 ];
-
-export const toolCategories = ['All', 'Core Skills', 'Tech Stack'];
