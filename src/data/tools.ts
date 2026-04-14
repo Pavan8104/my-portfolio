@@ -14,7 +14,7 @@ export const toolCategories: SkillCategory[] = [
     subcategories: [
       {
         title: 'Generative AI',
-        skills: ['RAG (Retrieval-Augmented Generation)', 'Agentic Workflows', 'LangChain', 'LlamaIndex']
+        skills: ['RAG (Retrieval-Augmented Generation)', 'Agentic Workflows', 'Prompt Engineering', 'LangChain']
       },
       {
         title: 'AI Safety & Evaluation',
@@ -22,7 +22,7 @@ export const toolCategories: SkillCategory[] = [
       },
       {
         title: 'Machine Learning',
-        skills: ['Scikit-learn', 'NLP', 'Predictive Modeling (Regression/Classification)']
+        skills: ['NLP', 'Predictive Modeling (Regression/Classification)']
       },
       {
         title: 'Vector Infrastructure',
@@ -35,19 +35,27 @@ export const toolCategories: SkillCategory[] = [
     subcategories: [
       {
         title: 'Core Languages',
-        skills: ['Python (Expert)', 'SQL (PostgreSQL)', 'JavaScript', 'C++ (Fundamentals)']
+        skills: ['Python (Expert)', 'JavaScript', 'C++ (Fundamentals)']
       },
       {
         title: 'API Architecture',
-        skills: ['FastAPI', 'RESTful Design', 'Pydantic (Data Validation)']
+        skills: ['FastAPI', 'RESTful Design', 'Pydantic (Data Validation)', 'JWT Authentication', 'RBAC (Role-Based Access Control)']
+      },
+      {
+        title: 'Database & ORM',
+        skills: ['PostgreSQL', 'MongoDB', 'Database Design', 'SQLAlchemy']
       },
       {
         title: 'Data Engineering',
-        skills: ['Pandas', 'NumPy', 'ETL Pipelines', 'Automated Feature Engineering']
+        skills: ['Pandas', 'NumPy', 'ETL Pipelines', 'Feature Engineering']
       },
       {
         title: 'Data Science',
-        skills: ['Exploratory Data Analysis (EDA)', 'Statistical Modeling', 'Jupyter Ecosystem']
+        skills: ['Scikit-learn', 'Matplotlib', 'Seaborn', 'EDA']
+      },
+      {
+        title: 'Optional / Advanced',
+        skills: ['Power BI', 'Tableau', 'PyTorch', 'TensorFlow']
       }
     ]
   },
@@ -85,7 +93,7 @@ export const toolCategories: SkillCategory[] = [
       },
       {
         title: 'Visualization',
-        skills: ['Matplotlib', 'Seaborn', 'Plotly']
+        skills: ['Plotly']
       }
     ]
   }
