@@ -2,11 +2,7 @@ import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { playSound } from '../../hooks/useAudio';
 import { LOGO } from '../../constants/brand';
-
-const GFORM_URL = 'https://docs.google.com/forms/d/e/1FAIpQLSd-4LxWG4YRlzwTNtunzkDdPvWUHEam5pQPjwNT3cI_ihwbSQ/formResponse';
-const ENTRY_NAME = 'entry.637031929';
-const ENTRY_EMAIL = 'entry.585507557';
-const ENTRY_MESSAGE = 'entry.1331300177';
+import emailjs from '@emailjs/browser';
 
 const COOLDOWN_MS = 60_000; // 60 seconds between messages
 const DAILY_LIMIT = 3;
@@ -43,7 +39,7 @@ export default function ContactSection() {
     return () => clearInterval(interval);
   }, [sent]);
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     playSound('click');
     setError('');
@@ -65,31 +61,27 @@ export default function ContactSection() {
 
     setSending(true);
 
-    try {
-      const body = new URLSearchParams();
-      body.append(ENTRY_NAME, formData.name);
-      body.append(ENTRY_EMAIL, formData.email);
-      body.append(ENTRY_MESSAGE, formData.message);
-
-      await fetch(GFORM_URL, {
-        method: 'POST',
-        mode: 'no-cors',
-        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-        body: body.toString(),
-      });
-
+    emailjs.sendForm(
+      'YOUR_SERVICE_ID',
+      'YOUR_TEMPLATE_ID',
+      e.currentTarget,
+      'YOUR_PUBLIC_KEY'
+    )
+    .then(() => {
       // Update rate limit
       setRateData({ lastSent: Date.now(), dailyCount: dailyCount + 1, dailyDate: today });
       setCooldown(Math.ceil(COOLDOWN_MS / 1000));
-
+      
       setSending(false);
       setSent(true);
       setTimeout(() => setSent(false), 4000);
       setFormData({ name: '', email: '', message: '' });
-    } catch {
+      console.log('Message sent successfully');
+    })
+    .catch((error) => {
       setSending(false);
-      setError('Transmission failed. Try again.');
-    }
+      console.error('Email failed:', error);
+    });
   };
 
   const contactItems = [
@@ -199,6 +191,7 @@ export default function ContactSection() {
                 </label>
                 <input
                   type="text"
+                  name="name"
                   value={formData.name}
                   onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                   className="w-full bg-black/50 border border-cyber-blue/20 rounded-lg px-4 py-2.5 font-code text-sm text-cyber-blue placeholder:text-cyber-blue-dim/30 focus:outline-none focus:border-cyber-blue/60 focus:shadow-neon transition-all"
@@ -214,6 +207,7 @@ export default function ContactSection() {
                 </label>
                 <input
                   type="email"
+                  name="email"
                   value={formData.email}
                   onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                   className="w-full bg-black/50 border border-cyber-blue/20 rounded-lg px-4 py-2.5 font-code text-sm text-cyber-blue placeholder:text-cyber-blue-dim/30 focus:outline-none focus:border-cyber-blue/60 focus:shadow-neon transition-all"
@@ -228,6 +222,7 @@ export default function ContactSection() {
                   {'>'} Message
                 </label>
                 <textarea
+                  name="message"
                   value={formData.message}
                   onChange={(e) => setFormData({ ...formData, message: e.target.value })}
                   rows={4}
