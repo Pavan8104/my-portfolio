@@ -10,6 +10,6 @@
     </filter>
   </defs>
   <text x="0"  y="12" font-family="monospace" font-weight="900" font-size="13" fill="#FF0099" filter="url(#gp)">&lt;</text>
-  <text x="8"  y="12" font-family="monospace" font-weight="900" font-size="13" fill="#00FFFF" filter="url(#gc)">MS</text>
+  <text x="8"  y="12" font-family="monospace" font-weight="900" font-size="13" fill="#00FFFF" filter="url(#gc)">PS</text>
   <text x="24" y="12" font-family="monospace" font-weight="900" font-size="13" fill="#FF0099" filter="url(#gp)">/&gt;</text>
 </svg>
